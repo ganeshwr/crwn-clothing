@@ -8,6 +8,7 @@ import {
   createUserDocumentFromAuth,
   signInWithGooglePopup,
   signInWithAuthUser,
+  converErrorMessage,
 } from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
@@ -36,10 +37,23 @@ const SignInForm = () => {
   const triggerSignIn = async (event) => {
     event.preventDefault();
 
-    const response = await signInWithAuthUser(email, password);
+    try {
+      const response = await signInWithAuthUser(email, password);
 
-    if (response) {
-      setFormFields(defaultFormFields);
+      if (response) {
+        setFormFields(defaultFormFields);
+      }
+    } catch (error) {
+      if (
+        error.code.includes("auth/wrong-password") ||
+        error.code.includes("auth/user-not-found")
+      ) {
+        alert("Email or password is incorrect!");
+      } else {
+        alert(converErrorMessage(error));
+      }
+
+      console.error("user creation error", error);
     }
   };
 
@@ -66,7 +80,7 @@ const SignInForm = () => {
           required
         />
 
-        <div className="sign-in-buttons-container">
+        <div className="buttons-container">
           <Button type="submit">SIGN IN</Button>
           <Button
             type="button"
