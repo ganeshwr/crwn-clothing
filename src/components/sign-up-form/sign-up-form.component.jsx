@@ -2,10 +2,12 @@ import { useState } from "react";
 
 import "./sign-up-form.styles.scss";
 
+import FormInput from "../form-input/form-input.component";
+
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
-  converErrorMessage
+  converErrorMessage,
 } from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
@@ -41,8 +43,8 @@ const SignUpForm = () => {
       alert("Successfully registered new user");
       setFormFields(defaultFormFields);
     } catch (error) {
-      if(error.code.includes("auth/email-already-in-use")) {
-        alert("Email is already in use.")
+      if (error.code.includes("auth/email-already-in-use")) {
+        alert("Email is already in use.");
       } else {
         alert(converErrorMessage(error));
       }
@@ -55,9 +57,8 @@ const SignUpForm = () => {
     <div>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="display-name">Display Name</label>
-        <input
-          id="display-name"
+        <FormInput
+          label="Display Name"
           type="text"
           onChange={handleField}
           value={displayName}
@@ -65,9 +66,8 @@ const SignUpForm = () => {
           required
         />
 
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
+        <FormInput
+          label="Email"
           type="email"
           onChange={handleField}
           value={email}
@@ -75,9 +75,8 @@ const SignUpForm = () => {
           required
         />
 
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
+        <FormInput
+          label="Password"
           type="password"
           onChange={handleField}
           value={password}
@@ -85,9 +84,8 @@ const SignUpForm = () => {
           required
         />
 
-        <label htmlFor="confirm-password">Confirm Password</label>
-        <input
-          id="confirm-password"
+        <FormInput
+          label="Confirm Password"
           type="password"
           onChange={handleField}
           value={confirmPassword}
