@@ -7,7 +7,7 @@ import { useState } from "react";
 import {
   createUserDocumentFromAuth,
   signInWithGooglePopup,
-  signInWithAuthUser
+  signInWithAuthUser,
 } from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
@@ -27,21 +27,21 @@ const SignInForm = () => {
 
   const triggerSignInPopup = async () => {
     const response = await signInWithGooglePopup();
-    
+
     if (response) {
       await createUserDocumentFromAuth(response.user);
     }
   };
 
   const triggerSignIn = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const response = await signInWithAuthUser(email, password)
+    const response = await signInWithAuthUser(email, password);
 
-    if(response) {
-      console.log("SUCCESS",response);
+    if (response) {
+      setFormFields(defaultFormFields);
     }
-  }
+  };
 
   return (
     <div className="sign-in-container">

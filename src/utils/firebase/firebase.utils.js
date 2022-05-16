@@ -24,7 +24,7 @@ const firebaseConfig = {
   appId: "1:344744813332:web:e18d7ad8c9ba57fe0bd801",
 };
 
-// Initialize Firebase
+// Initialize Firebase (singleton)
 initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
