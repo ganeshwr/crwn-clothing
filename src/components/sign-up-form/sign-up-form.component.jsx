@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./sign-up-form.styles.scss";
 
 import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
 
 import {
   createAuthUserWithEmailAndPassword,
@@ -54,7 +55,9 @@ const SignUpForm = () => {
   };
 
   return (
-    <div>
+    <div className="sign-up-container">
+      <h2>Don't have an account?</h2>
+      <span>Sign up with your email and password</span>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <FormInput
@@ -93,7 +96,7 @@ const SignUpForm = () => {
           required
         />
 
-        <button type="submit">Submit</button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   );
