@@ -2,14 +2,15 @@ import "./sign-in-form.styles.scss";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-import { useState } from "react";
 
+import { useState, useContext } from "react";
 import {
   createUserDocumentFromAuth,
   signInWithGooglePopup,
   signInWithAuthUser,
   converErrorMessage,
 } from "../../utils/firebase/firebase.utils";
+import { UserContext } from "../../contexts/user.context";
 
 const defaultFormFields = {
   email: "",
@@ -19,6 +20,8 @@ const defaultFormFields = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+
+  const { setCurrentUser } = useContext(UserContext);
 
   const handleField = (event) => {
     const { name, value } = event.target;
@@ -42,11 +45,13 @@ const SignInForm = () => {
 
       if (response) {
         setFormFields(defaultFormFields);
+        setCurrentUser(response.user);
       }
     } catch (error) {
       if (
-        error.code.includes("auth/wrong-password") ||
-        error.code.includes("auth/user-not-found")
+        error.code &&
+        (error.code.includes("auth/wrong-password") ||
+          error.code.includes("auth/user-not-found"))
       ) {
         alert("Email or password is incorrect!");
       } else {

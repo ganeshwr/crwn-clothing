@@ -48,7 +48,7 @@ export const signInWithAuthUser = async (email, password) => {
     const userDocRef = doc(db,"users", response.user.uid)
     const userSnapshot = await getDoc(userDocRef)
 
-    response.displayName = userSnapshot.get("displayName")
+    response.user.displayName = userSnapshot.get("displayName")
   }
   
   return response
