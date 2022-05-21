@@ -7,20 +7,23 @@ import Shop from "./routes/shop/shop.component";
 
 import { UserProvider } from "./contexts/user.context";
 import { ProductsProvider } from "./contexts/products.context";
+import { CartProvider } from "./contexts/cart.context";
 
 const App = () => {
   return (
     <UserProvider>
       <ProductsProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Navigation />}>
-              <Route index element={<Home />} />
-              <Route path="shop" element={<Shop />} />
-              <Route path="sign-in" element={<Authentication />} />
-            </Route>
-          </Routes>
-        </Router>
+        <CartProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Navigation />}>
+                <Route index element={<Home />} />
+                <Route path="shop" element={<Shop />} />
+                <Route path="sign-in" element={<Authentication />} />
+              </Route>
+            </Routes>
+          </Router>
+        </CartProvider>
       </ProductsProvider>
     </UserProvider>
   );
