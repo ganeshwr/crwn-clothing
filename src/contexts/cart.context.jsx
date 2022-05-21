@@ -6,11 +6,15 @@ export const CartContext = createContext({
   cartItems: [],
   updateCart: () => null,
   removeProduct: () => null,
+  cartTotalPrice: 0,
+  cartCount: 0,
 });
 
 export const CartProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [cartTotalPrice, setCartTotalPrice] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     const JSONCartItems = window.localStorage.getItem("cartItems");
@@ -22,6 +26,15 @@ export const CartProvider = ({ children }) => {
     if (cartItems.length > 0) {
       window.localStorage.setItem("cartItems", JSON.stringify(cartItems));
     }
+
+    const totalPrice = cartItems.reduce(
+      (prev, curr) => prev + curr.quantity * curr.price,
+      0
+    );
+    setCartTotalPrice(totalPrice);
+
+    const count = cartItems.reduce((prev, curr) => (prev += curr.quantity), 0);
+    setCartCount(count);
   }, [cartItems]);
 
   const updateCart = (product, operator = "+") => {
@@ -53,6 +66,8 @@ export const CartProvider = ({ children }) => {
     cartItems,
     updateCart,
     removeProduct,
+    cartTotalPrice,
+    cartCount,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
