@@ -11,7 +11,14 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+} from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -34,8 +41,21 @@ googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
+// both are singleton
 export const auth = getAuth();
 export const db = getFirestore();
+
+export const addCollectionAndDocument = async (key, objsToAdd, field) => {
+  const collectionRef = collection(db, key);
+  const batch = writeBatch(db);
+
+  objsToAdd.forEach((obj) => {
+    const docRef = doc(collectionRef, obj[field].toLowerCase());
+    batch.set(docRef, obj);
+  });
+
+  await batch.commit();
+};
 
 export const signInWithGooglePopup = async () => {
   return await signInWithPopup(auth, googleProvider);
