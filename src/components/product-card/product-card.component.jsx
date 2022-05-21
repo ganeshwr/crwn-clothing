@@ -6,10 +6,10 @@ import Button from "../button/button.component";
 import { useContext } from "react";
 
 const ProductCard = ({ product }) => {
-  const { addItemToCart } = useContext(CartContext);
+  const { updateCart } = useContext(CartContext);
 
   const addToCartHandler = () => {
-    addItemToCart(product);
+    updateCart(product);
   };
 
   return (
