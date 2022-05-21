@@ -11,10 +11,13 @@ const Shop = () => {
 
   return (
     <div className="products-container">
-      {products.map((product) => {
-        return (
-          <ProductCard key={product.id} product={product} />
-        );
+      {Object.keys(products).map((key, index) => {
+        const { items } = products[key];
+        console.log(items);
+
+        return items.map((product) => (
+          <ProductCard key={index} product={product} />
+        ));
       })}
     </div>
   );
