@@ -57,6 +57,7 @@ export const addCollectionAndDocument = async (key, objsToAdd, field) => {
   });
 
   await batch.commit();
+  console.log("addCollectionAndDocument done!");
 };
 export const getCollectionAndDocument = async (key) => {
   const collectionRef = collection(db, key);

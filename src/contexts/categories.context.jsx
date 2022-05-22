@@ -7,11 +7,11 @@ import {
 // import SHOP_DATA from "../shop-data";
 
 export const CategoriesContext = createContext({
-  categories: []
+  categories: {}
 });
 
 export const CategoriesProvider = ({ children }) => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState({});
   const value = { categories, setCategories };
 
   // Trigger only once
