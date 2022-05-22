@@ -1,6 +1,13 @@
-.products-container {
-  display: grid;
-  column-gap: 10px;
-  row-gap: 50px;
-  grid-template-columns: repeat(4, 1fr);
+.shop-category-container {
+  .products-container {
+    display: grid;
+    column-gap: 10px;
+    row-gap: 50px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .title {
+    cursor: pointer;
+    display: inline-block;
+  }
 }
