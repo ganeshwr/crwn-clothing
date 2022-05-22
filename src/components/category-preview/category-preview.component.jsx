@@ -4,21 +4,24 @@ import ProductCard from "../../components/product-card/product-card.component";
 
 import "./category-preview.styles.scss";
 
-const CategoryPreview = ({ title, products }) => {
+const CategoryPreview = ({ title, products, showAll = false }) => {
   const navigate = useNavigate();
 
-  const productsJSX = products
-    .filter((_, index) => index < 4)
-    .map((product) => <ProductCard key={product.id} product={product} />);
+  const productsJSX = products.map((product) => (
+    <ProductCard key={product.id} product={product} />
+  ));
 
   const categoryClickHandler = () => {
     navigate(title.toLowerCase());
   };
 
   return (
-    <div className="shop-category-container">
-      <h2>
-        <span className="title" onClick={categoryClickHandler}>
+    <div className="category-preview-container">
+      <h2 className={`${showAll ? "show-all" : ""}`}>
+        <span
+          className="title"
+          onClick={showAll ? null : categoryClickHandler}
+        >
           {title.toUpperCase()}
         </span>
       </h2>

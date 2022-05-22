@@ -13,7 +13,11 @@ const Shop = () => {
     <div className="shop-container">
       {Object.keys(categories).map((key, index) => {
         const { title, items } = categories[key];
-        return <CategoryPreview key={index} title={title} products={items} />;
+
+        const products = items.filter((_, index) => index < 4);
+        return (
+          <CategoryPreview key={index} title={title} products={products} />
+        );
       })}
     </div>
   );

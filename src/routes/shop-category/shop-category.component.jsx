@@ -1,24 +1,27 @@
+import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 
+import CategoryPreview from "../../components/category-preview/category-preview.component";
+
+import { CategoriesContext } from "../../contexts/categories.context";
 import "./shop-category.styles.scss";
 
-const ShopCategory = ({ title, products }) => {
+const ShopCategory = () => {
+  const { categories } = useContext(CategoriesContext);
   const location = useLocation();
 
-  console.log(location);
+  const category = "hats";
+
+  const isCategoriesEmpty = Object.keys(categories).length <= 0;
+  const data = isCategoriesEmpty ? {} : categories[category];
 
   return (
-    <div className="shop-category-container">
-      <h2>
-        <span className="title">{title.toUpperCase()}</span>
-      </h2>
-      <div className="preview">
-        {
-          products.filter((_, index)=>{
-            
-          })
-        }
-      </div>
+    <div>
+      <CategoryPreview
+        title={data.title || ""}
+        products={data.items || []}
+        showAll={true}
+      />
     </div>
   );
 };
