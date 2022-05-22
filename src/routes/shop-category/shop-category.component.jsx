@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import CategoryPreview from "../../components/category-preview/category-preview.component";
 
@@ -8,9 +8,7 @@ import "./shop-category.styles.scss";
 
 const ShopCategory = () => {
   const { categories } = useContext(CategoriesContext);
-  const location = useLocation();
-
-  const category = "hats";
+  const { category } = useParams();
 
   const isCategoriesEmpty = Object.keys(categories).length <= 0;
   const data = isCategoriesEmpty ? {} : categories[category];
