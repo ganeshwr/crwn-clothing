@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import CategoryPreview from "../../components/category-preview/category-preview.component";
 
