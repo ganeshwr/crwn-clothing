@@ -1,16 +1,15 @@
-import "./shop.styles.scss";
-
 import { useContext } from "react";
 
 import CategoryPreview from "../../components/category-preview/category-preview.component";
 
 import { CategoriesContext } from "../../contexts/categories.context";
+import { ShopContainer } from "./shop.styles";
 
 const Shop = () => {
   const { categories } = useContext(CategoriesContext);
 
   return (
-    <div className="shop-container">
+    <ShopContainer>
       {Object.keys(categories).map((key, index) => {
         const { title, items } = categories[key];
 
@@ -19,7 +18,7 @@ const Shop = () => {
           <CategoryPreview key={index} title={title} products={products} />
         );
       })}
-    </div>
+    </ShopContainer>
   );
 };
 

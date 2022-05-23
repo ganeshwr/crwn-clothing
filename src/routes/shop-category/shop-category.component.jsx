@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import CategoryPreview from "../../components/category-preview/category-preview.component";
 
 import { CategoriesContext } from "../../contexts/categories.context";
-import "./shop-category.styles.scss";
 
 const ShopCategory = () => {
   const { categories } = useContext(CategoriesContext);

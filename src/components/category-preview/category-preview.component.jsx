@@ -1,8 +1,14 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import ProductCard from "../../components/product-card/product-card.component";
 
-import "./category-preview.styles.scss";
+import {
+  CategoryPreviewContainer,
+  Preview,
+  ShowAll,
+  Title,
+  ViewAll,
+} from "./category-preview.styles";
 
 const CategoryPreview = ({ title, products, showAll = false }) => {
   const navigate = useNavigate();
@@ -16,20 +22,16 @@ const CategoryPreview = ({ title, products, showAll = false }) => {
   };
 
   return (
-    <div className="category-preview-container">
-      <h2 className={`${showAll ? "show-all" : ""}`}>
-        <span className="title" onClick={showAll ? null : categoryClickHandler}>
+    <CategoryPreviewContainer>
+      <ShowAll showAll={showAll}>
+        <Title onClick={showAll ? null : categoryClickHandler}>
           {title.toUpperCase()}
-        </span>
+        </Title>
         <br />
-        {!showAll && (
-          <Link to={title.toLowerCase()} className="view-all">
-            view all
-          </Link>
-        )}
-      </h2>
-      <div className="preview">{productsJSX}</div>
-    </div>
+        {!showAll && <ViewAll to={title.toLowerCase()}>view all</ViewAll>}
+      </ShowAll>
+      <Preview>{productsJSX}</Preview>
+    </CategoryPreviewContainer>
   );
 };
 
