@@ -1,5 +1,7 @@
 import { createContext, useEffect, useReducer } from "react";
 
+import { createAction } from "../utils/reducer/reducer.utils";
+
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => null,
@@ -46,10 +48,7 @@ export const CartProvider = ({ children }) => {
   const { isCartOpen, cartItems, cartTotalPrice, cartCount } = state;
 
   const setIsCartOpen = (toggle) => {
-    dispatch({
-      type: CART_ACTION_TYPES.SET_IS_CART_OPEN,
-      payload: toggle,
-    });
+    dispatch(createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, toggle));
   };
 
   const updateCartItemsReducer = (newCartItems) => {
@@ -65,14 +64,13 @@ export const CartProvider = ({ children }) => {
       0
     );
 
-    dispatch({
-      type: CART_ACTION_TYPES.SET_CART_ITEMS,
-      payload: {
+    dispatch(
+      createAction(CART_ACTION_TYPES.SET_CART_ITEMS, {
         cartItems: newCartItems,
         cartTotalPrice: newCartTotalPrice,
         cartCount: newCartCount,
-      },
-    });
+      })
+    );
   };
 
   // Get previously saved cart items in localStorage
