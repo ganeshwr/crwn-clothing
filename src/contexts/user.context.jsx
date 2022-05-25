@@ -15,6 +15,10 @@ export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
 };
 
+const INITIAL_STATE = {
+  currentUser: null,
+};
+
 const UserReducer = (state, action) => {
   const { type, payload } = action; //type is guaranteed, but payload is optional
 
@@ -27,10 +31,6 @@ const UserReducer = (state, action) => {
     default:
       throw new Error(`Unhandled action type ${type}`);
   }
-};
-
-const INITIAL_STATE = {
-  currentUser: null,
 };
 
 export const UserProvider = ({ children }) => {
