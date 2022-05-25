@@ -13,8 +13,6 @@ export const CartContext = createContext({
 export const CART_ACTION_TYPES = {
   SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
   SET_CART_ITEMS: "SET_CART_ITEMS",
-  SET_CART_TOTAL_PRICE: "SET_CART_TOTAL_PRICE",
-  SET_CART_COUNT: "SET_CART_COUNT",
 };
 
 const INITIAL_STATE = {
@@ -36,19 +34,8 @@ const CartReducer = (state, action) => {
     case CART_ACTION_TYPES.SET_CART_ITEMS:
       return {
         ...state,
-        cartItems: payload,
+        ...payload,
       };
-    case CART_ACTION_TYPES.SET_CART_TOTAL_PRICE:
-      return {
-        ...state,
-        cartTotalPrice: payload,
-      };
-    case CART_ACTION_TYPES.SET_CART_COUNT:
-      return {
-        ...state,
-        cartCount: payload,
-      };
-
     default:
       throw new Error(`Unhandled action type ${type}`);
   }
@@ -65,37 +52,34 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const setCartItems = (toggle) => {
+  const updateCartItemsReducer = (newCartItems) => {
+    // // Set cart total price
+    const newCartTotalPrice = newCartItems.reduce(
+      (prev, curr) => prev + curr.quantity * curr.price,
+      0
+    );
+
+    // // Set cart items count
+    const newCartCount = newCartItems.reduce(
+      (prev, curr) => (prev += curr.quantity),
+      0
+    );
+
     dispatch({
       type: CART_ACTION_TYPES.SET_CART_ITEMS,
-      payload: toggle,
+      payload: {
+        cartItems: newCartItems,
+        cartTotalPrice: newCartTotalPrice,
+        cartCount: newCartCount,
+      },
     });
   };
-
-  const setCartTotalPrice = (toggle) => {
-    dispatch({
-      type: CART_ACTION_TYPES.SET_CART_TOTAL_PRICE,
-      payload: toggle,
-    });
-  };
-
-  const setCartCount = (toggle) => {
-    dispatch({
-      type: CART_ACTION_TYPES.SET_CART_COUNT,
-      payload: toggle,
-    });
-  };
-
-  // const [isCartOpen, setIsCartOpen] = useState(false);
-  // const [cartItems, setCartItems] = useState([]);
-  // const [cartTotalPrice, setCartTotalPrice] = useState(0);
-  // const [cartCount, setCartCount] = useState(0);
 
   // Get previously saved cart items in localStorage
   useEffect(() => {
     const JSONCartItems = window.localStorage.getItem("cartItems");
 
-    if (JSONCartItems) setCartItems(JSON.parse(JSONCartItems));
+    if (JSONCartItems) updateCartItemsReducer(JSON.parse(JSONCartItems));
   }, []);
 
   // Storing current cart items to localStorage to persist the value in page reload (only if the items is not 0)
@@ -103,21 +87,6 @@ export const CartProvider = ({ children }) => {
     if (cartItems.length > 0) {
       window.localStorage.setItem("cartItems", JSON.stringify(cartItems));
     }
-  }, [cartItems]);
-
-  // Set cart total price
-  useEffect(() => {
-    const totalPrice = cartItems.reduce(
-      (prev, curr) => prev + curr.quantity * curr.price,
-      0
-    );
-    setCartTotalPrice(totalPrice);
-  }, [cartItems]);
-
-  // Set cart items count
-  useEffect(() => {
-    const count = cartItems.reduce((prev, curr) => (prev += curr.quantity), 0);
-    setCartCount(count);
   }, [cartItems]);
 
   const updateCart = (product, operator = "+") => {
@@ -130,7 +99,7 @@ export const CartProvider = ({ children }) => {
       if (cartItems[findProduct].quantity <= 0) removeProduct(product.id);
     } else cartItems.push({ ...product, quantity: 1 });
 
-    setCartItems([...cartItems]);
+    updateCartItemsReducer([...cartItems]);
   };
 
   const removeProduct = (id) => {
@@ -140,7 +109,7 @@ export const CartProvider = ({ children }) => {
       cartItems.splice(findProduct, 1);
     }
 
-    setCartItems([...cartItems]);
+    updateCartItemsReducer([...cartItems]);
 
     if (cartItems.length === 0)
       window.localStorage.setItem("cartItems", JSON.stringify(cartItems));
