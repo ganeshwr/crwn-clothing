@@ -25,7 +25,7 @@ const App = () => {
       if (user) {
         await createUserDocumentFromAuth(user);
       }
-
+      
       dispatch(setCurrentUser(user));
     });
 
