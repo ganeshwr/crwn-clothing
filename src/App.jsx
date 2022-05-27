@@ -10,13 +10,10 @@ import Checkout from "./routes/checkout/checkout.component";
 import ShopCategory from "./routes/shop-category/shop-category.component";
 
 import { setCurrentUser } from "./store/user/user.action";
-import { setCategories } from "./store/categories/categories.action";
 import { CartProvider } from "./contexts/cart.context";
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
-  addCollectionAndDocument,
-  getCollectionAndDocument,
 } from "./utils/firebase/firebase.utils";
 // import SHOP_DATA from "./shop-data";
 
@@ -34,22 +31,6 @@ const App = () => {
     });
 
     return unsubscribe;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Set Categories
-  // ==============
-  // Trigger only once
-  // useEffect(() => {
-  //   addCollectionAndDocument("categories", SHOP_DATA, "title");
-  // }, []);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getCollectionAndDocument("categories");
-      dispatch(setCategories(response));
-    };
-
-    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
