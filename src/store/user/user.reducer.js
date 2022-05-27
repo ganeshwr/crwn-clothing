@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   currentUser: null,
 };
 
-export const UserReducer = (state = INITIAL_STATE, action) => {
+export const UserReducer = (state = INITIAL_STATE, action = {}) => {
   const { type, payload } = action; //type is guaranteed, but payload is optional
 
   switch (type) {
@@ -14,6 +14,6 @@ export const UserReducer = (state = INITIAL_STATE, action) => {
         currentUser: payload,
       };
     default:
-      return state // won't re-render because the state is not changed (same memory)
+      return state; // won't re-render because the state is not changed (same memory)
   }
 };
